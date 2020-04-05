@@ -3,9 +3,8 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   mongoose = require('mongoose'),
   seedDB = require("./seeds"),
-  Campground = require("./models/campground");
-
-
+  Campground = require("./models/campground"),
+  Comment = require("./models/comment");
 
 mongoose.connect('mongodb://localhost:27017/yelp_camp', {
   useNewUrlParser: true,
@@ -61,7 +60,18 @@ db.once('open', function () {
       if (err) {
         console.log(err)
       } else {
-        res.redirect("campgrounds/index");
+        Comment.create({
+          text: "This place is great, but I wish there was internet",
+          author: "Israel"
+        }, function (err, comment) {
+          if (err) {
+            console.log(err);
+          } else {
+            newlyCreated.comments.push(comment);
+            newlyCreated.save();
+            res.redirect("/campgrounds");
+          }
+        });
       }
     });
   });
