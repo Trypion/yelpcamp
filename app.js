@@ -80,13 +80,15 @@ db.once('open', function () {
     res.render("campgrounds/new");
   });
 
+  //SHOW
   app.get("/campgrounds/:id", function (req, res) {
 
     //encontrar o campground com o ID
-    Campground.findById(req.params.id, function (err, foundCampground) {
+    Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
       if (err) {
         console.log(err);
       } else {
+        //console.log(foundCampground);
         res.render("campgrounds/show", {
           campground: foundCampground
         });
