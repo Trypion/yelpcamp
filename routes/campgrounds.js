@@ -18,40 +18,34 @@ router.get("/", function (req, res) {
 });
 
 //create route
-router.post("/", function (req, res) {
+router.post("/", isLoggedIn, function (req, res) {
 
     const name = req.body.name;
     const image = req.body.image;
     const description = req.body.description;
+    const author = {
+        id: req.user._id,
+        username: req.user.username
+    }
 
     const newCampground = {
         name: name,
         image: image,
-        description: description
+        description: description,
+        author: author
     };
 
     Campground.create(newCampground, function (err, newlyCreated) {
         if (err) {
             console.log(err)
         } else {
-            Comment.create({
-                text: "This place is great, but I wish there was internet",
-                author: "Israel"
-            }, function (err, comment) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    newlyCreated.comments.push(comment);
-                    newlyCreated.save();
-                    res.redirect("/campgrounds");
-                }
-            });
+            res.redirect("/campgrounds");
         }
     });
 });
 
 //new route
-router.get("/new", function (req, res) {
+router.get("/new", isLoggedIn, function (req, res) {
     res.render("campgrounds/new");
 });
 
@@ -62,12 +56,20 @@ router.get("/:id", function (req, res) {
     Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
         if (err) {
             console.log(err);
-        } else {            
+        } else {
             res.render("campgrounds/show", {
                 campground: foundCampground
             });
         }
     });
 });
+
+//middleware
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;
