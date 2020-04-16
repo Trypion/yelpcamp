@@ -28,7 +28,7 @@
                     <% } %> 
                 </div>
             </div>
-            <div class="card bg-light">
+            <div class="card bg-light mb-4">
                 <div class="card-body">
                     <div class="text-right">
                         <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New
@@ -36,15 +36,21 @@
                     </div>
                     <hr>
                     <% campground.comments.forEach(comment => { %>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong><%= comment.author.username %></strong>
-                            <span class="float-right">10 days ago</span>
-                            <p>
-                                <%= comment.text %>
-                            </p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong><%= comment.author.username %></strong>
+                                <span class="float-right">10 days ago</span>
+                                <p>
+                                    <%= comment.text %>
+                                </p>
+                                <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
+                                    <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+                                    <form class="d-inline" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                <% } %> 
+                            </div>
                         </div>
-                    </div>
                     <% }); %>
                 </div>
             </div>
