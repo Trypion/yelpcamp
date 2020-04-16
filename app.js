@@ -39,6 +39,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(flash());
+app.use(express.static(__dirname + "/public"));
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
@@ -46,6 +47,7 @@ app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   next();
 });
+
 
 const db = mongoose.connection;
 
