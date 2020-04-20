@@ -1,6 +1,6 @@
 # yelpcamp
 
-Projeto de um site usando node/ express/ mongoDB
+Projeto de um site responsivo usando node/ express/ mongoDB
 
 bootstrap4 para adicionar um pouco de estilo
 
