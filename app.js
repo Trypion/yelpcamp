@@ -13,7 +13,9 @@ const campgroundRoutes = require('./routes/campgrounds'),
   commentRoutes = require('./routes/comments'),
   indexRoutes = require('./routes/index');
 
-mongoose.connect('mongodb+srv://israel:q1w2e3r4t5@cluster0-tyonv.mongodb.net/test?retryWrites=true&w=majority', {
+const bancoURL = 'URL DE CONEXAO COM O BANCO'
+
+mongoose.connect(bancoURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
